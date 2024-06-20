@@ -1,0 +1,30 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main  # 或其他需要自動部署的分支
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # 替換為你的 Python 版本
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # 根據你的需求調整
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}  # GitHub Secrets 中設置的 Heroku API 密鑰
+          heroku_app_name: 'your-heroku-app-name'  # Heroku 應用程序的名稱
+          heroku_email: 'your-heroku-email@example.com'  # Heroku 賬戶的電子郵件地址
